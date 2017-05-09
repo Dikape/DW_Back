@@ -1,0 +1,12 @@
+.gitignore
+.idea/
+
+*.log
+*.dll
+*.lib
+*.exe
+Thumbs.db
+__pycache__
+media
+settings_local.py
+static/django_cache
