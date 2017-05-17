@@ -2,20 +2,14 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 
-from .serializers import InvestmentObjectSerializer, InvestMapPointSerializer, ObjectHolderSerializer
-from .models import InvestmentObject, InvestMapPoint, ObjectHolder
+from .serializers import OwnershipFormSerializer, ObjectHolderSerializer, ContractTypeSerializer, ObjectCategorySerializer, InvestMapPointSerializer, InvestmentObjectSerializer
+from investmap.models import OwnershipForm, ObjectHolder, ContractType, ObjectCategory, InvestmentObject, InvestMapPoint
 
 
-class InvestmentObjectViewSet(viewsets.ModelViewSet):
-    model = InvestmentObject
-    queryset = InvestmentObject.objects.all()
-    serializer_class = InvestmentObjectSerializer
-
-
-class InvestMapPointViewSet(viewsets.ModelViewSet):
-    model = InvestMapPoint
-    queryset = InvestMapPoint.objects.all()
-    serializer_class = InvestMapPointSerializer
+class OwnershipFormViewSet(viewsets.ModelViewSet):
+    model = OwnershipForm
+    queryset = OwnershipForm.objects.all()
+    serializer_class = OwnershipFormSerializer
 
 
 class ObjectHolderViewSet(viewsets.ModelViewSet):
@@ -24,3 +18,20 @@ class ObjectHolderViewSet(viewsets.ModelViewSet):
     serializer_class = ObjectHolderSerializer
 
 
+class ContractTypeViewSet(viewsets.ModelViewSet):
+    model = ContractType
+    queryset = ContractType.objects.all()
+    serializer_class = ContractTypeSerializer
+
+
+class ObjectCategoryViewSet(viewsets.ModelViewSet):
+    model = ObjectCategory
+    queryset = ObjectCategory.objects.all()
+    serializer_class = ObjectCategorySerializer
+    parser_classes = (MultiPartParser, FormParser)
+
+class InvestmentObjectViewSet(viewsets.ModelViewSet):
+    model = InvestmentObject
+    queryset = InvestmentObject.objects.all()
+    serializer_class = InvestmentObjectSerializer
+    parser_classes = (MultiPartParser, FormParser)

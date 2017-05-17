@@ -20,7 +20,7 @@ class Region(models.Model):
         verbose_name_plural = 'Регіони'
 
 
-class PeopleCategorie(models.Model):
+class PeopleCategory(models.Model):
     title = models.CharField(max_length=100, verbose_name='Назва')
     color = models.CharField(max_length=100, verbose_name='Назва кольору англійською')
 
@@ -33,7 +33,7 @@ class PeopleCategorie(models.Model):
 class People(models.Model):
     title = models.CharField(max_length=100, verbose_name='Назва')
     region = models.ForeignKey(Region, on_delete=models.CASCADE, verbose_name='Регіон')
-    category = models.ForeignKey(PeopleCategorie, on_delete=models.CASCADE, verbose_name='Категорія')
+    category = models.ForeignKey(PeopleCategory, on_delete=models.CASCADE, verbose_name='Категорія')
     short_description = models.CharField(max_length=200, verbose_name='Короткий опис', blank=True)
     description = models.CharField(max_length=1000, verbose_name='Опис')
     count = models.IntegerField(verbose_name='Кількість')

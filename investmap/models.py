@@ -84,6 +84,7 @@ class InvestMapPoint(models.Model):
     investment_object = models.ForeignKey(InvestmentObject, related_name='map_points', on_delete=models.CASCADE, verbose_name="Інвестиційний об'єкт")
     map_lon = models.CharField(max_length=64, verbose_name='Довгота')
     map_lat = models.CharField(max_length=64, verbose_name='Широта')
+    order = models.IntegerField(default=0)
 
     @property
     def lat_lng(self):

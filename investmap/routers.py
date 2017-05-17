@@ -4,7 +4,10 @@ from investmap import viewsets
 
 router = routers.SimpleRouter()
 # Register viewsets in router
-router.register(r'objects', viewsets.InvestmentObjectViewSet, 'InvestMapObject')
-router.register(r'object_points', viewsets.InvestMapPointViewSet, 'InvestMapPoint')
+router.register(r'ownership_forms', viewsets.OwnershipFormViewSet, 'OwnershipForm')
 router.register(r'holders', viewsets.ObjectHolderViewSet, 'ObjectHolder')
+router.register(r'contract_type', viewsets.ContractTypeViewSet, 'ContractType')
+router.register(r'category', viewsets.ObjectCategoryViewSet, 'ObjectCategory')
+router.register(r'objects', viewsets.InvestmentObjectViewSet, 'InvestmentObject')
+
 

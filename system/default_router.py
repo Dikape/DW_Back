@@ -1,6 +1,7 @@
 from rest_framework import routers
 
 from investmap import routers as investmap_routers
+from system import routers as system_routers
 
 
 class DefaultRouter(routers.DefaultRouter):
@@ -21,4 +22,5 @@ class DefaultRouter(routers.DefaultRouter):
 router = DefaultRouter()
 
 router.extend(investmap_routers.router)
+router.extend(system_routers.router)
 
