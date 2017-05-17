@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from .models import InvestMapObject, InvestMapPoint, ObjectHolder
+from .models import InvestmentObject, InvestMapPoint, ObjectHolder
 
 
-class InvestMapObjectSerializer(serializers.ModelSerializer):
+class InvestmentObjectSerializer(serializers.ModelSerializer):
     class Meta:
-        model = InvestMapObject
+        model = InvestmentObject
         fields = ('id', 'name', 'description', 'price', 'address', 'metrics', 'contacts', 'object_holder', 'object_type', )
         read_only_fields = ('id',)
 

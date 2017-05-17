@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import InvestMapLog, InvestMapObject, InvestMapPoint, ObjectHolder
+from .models import InvestMapLog, InvestmentObject, InvestMapPoint, ObjectHolder
 # Register your models here.
 
 
@@ -10,8 +10,8 @@ class InvestMapPointInline(admin.TabularInline):
     min_num = 0
 
 
-class InvestMapObjectAdmin(admin.ModelAdmin):
+class InvestmentObjectAdmin(admin.ModelAdmin):
     inlines = (InvestMapPointInline,)
 
-admin.site.register(InvestMapObject, InvestMapObjectAdmin)
+admin.site.register(InvestmentObject, InvestmentObjectAdmin)
 admin.site.register(ObjectHolder)

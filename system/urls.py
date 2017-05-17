@@ -22,7 +22,7 @@ from system import views
 
 api_patterns = [
     url(r'^', include(router.urls)),
-    url(r'^auth/token$', rest_framework_views.obtain_auth_token, name='get_token'),
+
 ]
 
 
@@ -30,4 +30,5 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^admin/', admin.site.urls),
     url(r'^api/', include(api_patterns, namespace='rest')),
+    url(r'^auth/token$', rest_framework_views.obtain_auth_token, name='get_token'),
 ]

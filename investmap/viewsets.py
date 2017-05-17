@@ -2,14 +2,14 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
 
-from .serializers import InvestMapObjectSerializer, InvestMapPointSerializer, ObjectHolderSerializer
-from .models import InvestMapObject, InvestMapPoint, ObjectHolder
+from .serializers import InvestmentObjectSerializer, InvestMapPointSerializer, ObjectHolderSerializer
+from .models import InvestmentObject, InvestMapPoint, ObjectHolder
 
 
-class InvestMapObjectViewSet(viewsets.ModelViewSet):
-    model = InvestMapObject
-    queryset = InvestMapObject.objects.all()
-    serializer_class = InvestMapObjectSerializer
+class InvestmentObjectViewSet(viewsets.ModelViewSet):
+    model = InvestmentObject
+    queryset = InvestmentObject.objects.all()
+    serializer_class = InvestmentObjectSerializer
 
 
 class InvestMapPointViewSet(viewsets.ModelViewSet):
