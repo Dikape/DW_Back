@@ -7,6 +7,9 @@ from system.models import Region
 class OwnershipForm(models.Model):
     title = models.CharField(max_length=100, verbose_name='Назва')
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         db_table = 'investmap_ownership_forms'
         verbose_name = 'Форма власності'
@@ -33,6 +36,9 @@ class ObjectHolder(models.Model):
 class ContractType(models.Model):
     title = models.CharField(max_length=100, verbose_name='Назва')
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         db_table = 'investmap_contract_types'
         verbose_name = 'Тип договору'
@@ -42,6 +48,9 @@ class ContractType(models.Model):
 class ObjectCategory(models.Model):
     title = models.CharField(max_length=100, verbose_name='Назва')
     marker_picture = models.ImageField(upload_to='categories_markers', verbose_name='Зображення маркера')
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         db_table = 'investmap_object_categories'

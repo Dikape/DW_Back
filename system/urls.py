@@ -17,6 +17,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework.authtoken import views as rest_framework_views
 from .default_router import router
+from django.conf.urls.static import static
+from django.conf import settings
 
 from system import views
 
@@ -32,3 +34,4 @@ urlpatterns = [
     url(r'^api/', include(api_patterns, namespace='rest')),
     url(r'^auth/token$', rest_framework_views.obtain_auth_token, name='get_token'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

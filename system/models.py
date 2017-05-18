@@ -14,6 +14,9 @@ class Region(models.Model):
     center_lon = models.CharField(max_length=64, verbose_name='Довгота')
     center_lat = models.CharField(max_length=64, verbose_name='Широта')
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         db_table = 'region_regions'
         verbose_name = 'регіон'
@@ -23,6 +26,9 @@ class Region(models.Model):
 class PeopleCategory(models.Model):
     title = models.CharField(max_length=100, verbose_name='Назва')
     color = models.CharField(max_length=100, verbose_name='Назва кольору англійською')
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         db_table = 'region_people_categories'
@@ -40,6 +46,9 @@ class People(models.Model):
     radius = models.FloatField(verbose_name='Радіус')
     map_lon = models.CharField(max_length=64, verbose_name='Довгота')
     map_lat = models.CharField(max_length=64, verbose_name='Широта')
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         db_table = 'region_peoples'
