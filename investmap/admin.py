@@ -1,7 +1,6 @@
 from django.contrib import admin
 
-from .models import InvestMapLog, InvestmentObject, InvestMapPoint, ObjectHolder
-# Register your models here.
+from investmap.models import OwnershipForm, ObjectHolder, ContractType, ObjectCategory, InvestmentObject, InvestMapPoint
 
 
 class InvestMapPointInline(admin.TabularInline):
@@ -14,4 +13,7 @@ class InvestmentObjectAdmin(admin.ModelAdmin):
     inlines = (InvestMapPointInline,)
 
 admin.site.register(InvestmentObject, InvestmentObjectAdmin)
+admin.site.register(OwnershipForm)
 admin.site.register(ObjectHolder)
+admin.site.register(ContractType)
+admin.site.register(ObjectCategory)

@@ -52,14 +52,14 @@ class InvestmentObjectSerializer(serializers.ModelSerializer):
         map_points = validated_data.pop('map_points')
         instance = super(InvestmentObjectSerializer, self).create(validated_data)
         for i, item in enumerate(map_points):
-            InvestMapPoint.objects.create(investment_map=instance, order=i, **item)
+            InvestMapPoint.objects.create(investment_object=instance, order=i, **item)
 
         return instance
 
     def update(self, instance, validated_data):
         map_points = validated_data.pop('map_points')
         instance = super(InvestmentObjectSerializer, self).update(instance, validated_data)
-        query = InvestMapPoint.objects.filter(investment_map_id=instance.pk).all()
+        query = InvestMapPoint.objects.filter(investment_object__id=instance.pk).all()
         lst = []
         for item in map_points:
             instance = InvestMapPoint(**item)

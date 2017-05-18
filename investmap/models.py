@@ -58,7 +58,7 @@ class InvestmentObject(models.Model):
     holder = models.ForeignKey(ObjectHolder, verbose_name='Власник', on_delete=models.CASCADE)
     contract_type = models.ForeignKey(ContractType, verbose_name='Тип договору', on_delete=models.CASCADE)
     category = models.ForeignKey(ObjectCategory, verbose_name="Категорія об'єкта", on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='objects', verbose_name='Зображення')
+    image = models.ImageField(upload_to='objects', verbose_name='Зображення', blank=True, null=True)
 
     @property
     def lat_lng(self):
