@@ -10,6 +10,7 @@ class InvestMapPointInline(admin.TabularInline):
 
 
 class InvestmentObjectAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price', 'category')
     inlines = (InvestMapPointInline,)
 
 admin.site.register(InvestmentObject, InvestmentObjectAdmin)

@@ -80,6 +80,11 @@ class InvestmentObject(models.Model):
             result = [coordinate.lat_lng() for coordinate in query]
         return result
 
+    @property
+    def markers_count(self):
+        markers = self.map_points.all()
+        return markers.count()
+
     def __str__(self):
         return self.name
 
