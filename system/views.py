@@ -37,7 +37,7 @@ def knapsack01_dp(items, limit):
 
 
 def math_algorithm(request):
-    center_lat1 = 32.33
+    center_lat1 = 39.33
     center_lon1 = 49.2
     distance_price = 9
     categories = ObjectCategory.objects.filter(id__in=[2,3,4,5])
@@ -63,7 +63,7 @@ def math_algorithm(request):
         items += (k, int(list(v.values())[0]), costs[i]),
         i+=1
 
-    result = knapsack01_dp(items, 10000)
+    result = knapsack01_dp(items, 50000)
     print(result)
 
 

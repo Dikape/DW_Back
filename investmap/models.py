@@ -1,5 +1,7 @@
 from django.db import models
 
+from stdimage.models import StdImageField
+
 from django.contrib.auth.models import User
 from system.models import Region
 
@@ -47,7 +49,9 @@ class ContractType(models.Model):
 
 class ObjectCategory(models.Model):
     title = models.CharField(max_length=100, verbose_name='Назва')
-    marker_picture = models.ImageField(upload_to='categories_markers', verbose_name='Зображення маркера')
+    marker_picture = StdImageField(upload_to='categories_markers', verbose_name='Зображення маркера', variations={
+        'sm': (36, 36),
+    })
 
     def __str__(self):
         return self.title

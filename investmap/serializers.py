@@ -25,9 +25,14 @@ class ContractTypeSerializer(serializers.ModelSerializer):
 
 
 class ObjectCategorySerializer(serializers.ModelSerializer):
+    img_small = serializers.SerializerMethodField(source='get_img_small')
+
+    def get_img_small(self, obj):
+        return 'http://127.0.0.1:8000'+obj.marker_picture.sm.url
+
     class Meta:
         model = ObjectCategory
-        fields = ('id', 'title', 'marker_picture')
+        fields = ('id', 'title', 'marker_picture', 'img_small')
         read_only_fields = ('id',)
 
 
