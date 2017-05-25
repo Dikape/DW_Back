@@ -23,6 +23,22 @@ class Region(models.Model):
         verbose_name_plural = 'Регіони'
 
 
+class RegionMapPoint(models.Model):
+    region = models.ForeignKey(Region, related_name='map_points', on_delete=models.CASCADE, verbose_name="Інвестиційний об'єкт")
+    map_lon = models.CharField(max_length=64, verbose_name='Довгота')
+    map_lat = models.CharField(max_length=64, verbose_name='Широта')
+    order = models.IntegerField(default=0)
+
+    @property
+    def lat_lng(self):
+        return {'lat': float(self.map_lat), 'lng': float(self.map_lon)}
+
+    class Meta:
+        db_table = 'region_points'
+        verbose_name = 'Точка на мапі'
+        verbose_name_plural = 'Точки на мапі'
+
+
 class PeopleCategory(models.Model):
     title = models.CharField(max_length=100, verbose_name='Назва')
     color = models.CharField(max_length=100, verbose_name='Назва кольору англійською')
