@@ -13,7 +13,7 @@ class RegionPointInline(admin.TabularInline):
 
 
 class RegionAdmin(admin.ModelAdmin):
-    inlines = (RegionPointInline)
+    inlines = (RegionPointInline, )
 
 
 admin.site.unregister(Token)
