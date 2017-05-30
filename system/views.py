@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import requests
 from math import sin, cos, sqrt, atan2, radians, asin
 
@@ -15,7 +15,7 @@ def knapsack01_dp(items, limit):
     table = [[0 for w in range(limit + 1)] for j in range(len(items) + 1)]
 
     for j in range(1, len(items) + 1):
-        item, wt, val = items[j - 1]
+        item, wt, val, obj_id = items[j - 1]
         for w in range(1, limit + 1):
             if wt > w:
                 table[j][w] = table[j - 1][w]
@@ -29,7 +29,7 @@ def knapsack01_dp(items, limit):
         was_added = table[j][w] != table[j - 1][w]
 
         if was_added:
-            item, wt, val = items[j - 1]
+            item, wt, val, obj_id = items[j - 1]
             result.append(items[j - 1])
             w -= wt
 
@@ -37,11 +37,19 @@ def knapsack01_dp(items, limit):
 
 
 def math_algorithm(request):
-    center_lat1 = 39.33
-    center_lon1 = 49.2
-    distance_price = 9
-    categories = ObjectCategory.objects.filter(id__in=[2,3,4,5])
+    center_lat = request.POST.get('center_lat')
+    center_lon = request.POST.get('center_lon')
+    max_weight = request.POST.get('max_sum')
+    categories_list = request.POST.get('categories')
+    categories_id = [i[0] for i in categories_list]
+    categories_costs = [i[1] for i in categories_list]
+
+    categories = ObjectCategory.objects.filter(id__in=categories_id)
     objects_by_categories = {}
+
+    distance_koef = 10
+
+    result = {}
     for category in categories:
         invest_objects = category.investmentobject_set.filter()
         objects_price = {}
@@ -49,23 +57,22 @@ def math_algorithm(request):
             points = obj.map_points.all()
             if points.count() == 1:
 
-                obj_distance = vincenty((center_lat1, center_lon1), (points[0].map_lat, points[0].map_lon)).kilometers
+                obj_distance = vincenty((center_lat, center_lon), (points[0].map_lat, points[0].map_lon)).kilometers
                 # print('price {0} distance {1}'.format(obj.price, obj_distance))
-                objects_price[obj.id] = float(obj.price) + obj_distance*distance_price
+                objects_price[obj.id] = float(obj.price) + obj_distance*distance_koef
 
-        objects_by_categories[category.title] = {k:v for k,v in objects_price.items() if v==min(objects_price.values())}
+        objects_by_categories[category.id] = {k:v for k,v in objects_price.items() if v==min(objects_price.values())}
         # for obj in invest_objects:
         #     if obj.objects.fil
     items = ()
-    costs = [10, 12, 20, 15]
     i = 0
     for k,v in objects_by_categories.items():
-        items += (k, int(list(v.values())[0]), costs[i]),
+        items += (k, int(list(v.values())[0]), categories_costs[i], list(v.keys())[0]),
         i+=1
 
-    result = knapsack01_dp(items, 50000)
-    print(result)
+    result_knapsack = knapsack01_dp(items, max_weight)
+
+    result['result'] = [[i[0], i[3]] for i in result_knapsack]
 
 
-
-    return HttpResponse(result)
+    return JsonResponse(result, safe=False)
