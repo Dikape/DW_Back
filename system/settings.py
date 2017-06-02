@@ -11,7 +11,59 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-from .settings_local import *
+# Individual settings. Configure it on project start up.
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+SITE_ID = 1
+SITE_URL = ''
+SECRET_KEY = 'rjb93!#cwzyym#crz0+w@f_kb$rpya-!^x9z2+%6x8)1uo73o%'  # change the secret key for your local system.
+
+# Debug mode options
+DEBUG = True
+
+# SECURITY WARNING: don't run with debug turned on in production!
+if (DEBUG):
+    ALLOWED_HOSTS = ['127.0.0.1']
+    INTERNAL_IPS = ['127.0.0.1']
+else:
+    ALLOWED_HOSTS = ['*']
+    INTERNAL_IPS = ['*']
+
+# PostgeSQL definations:
+# As a DB connector (driver) we recommend using psycopg2
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'diploma_db',  # Database name
+        'USER': 'beph',  # Postgres user name
+        'PASSWORD': 'bephpass',  # Postgres user password
+        'HOST': 'localhost',
+        'PORT': 5432
+    }
+}
+
+# Static folder definations:
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR)
+STATICFILES_DIRS = [os.path.join(STATIC_ROOT, 'static'), ]
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'files', 'media')
+# MEDIA_URL = '/media/'
+
+# DON'T redifine fixtures path, please. it is important for fixtures upload.
+FIXTURE_DIRS = [os.path.join(BASE_DIR, 'development/dumps')]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': STATIC_ROOT + STATIC_URL + 'django_cache',
+    }
+}
+
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,12 +72,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'rjb93!#cwzyym#crz0+w@f_kb$rpya-!^x9z2+%6x8)1uo73o%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -129,8 +180,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -158,3 +215,6 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
 )
+
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
