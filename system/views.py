@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 import requests
 from math import sin, cos, sqrt, atan2, radians, asin
-
+from django.views.decorators.csrf import csrf_exempt
 from investmap.models import ObjectCategory, InvestmentObject, InvestMapPoint
 from geopy.distance import vincenty
 
@@ -36,10 +36,11 @@ def knapsack01_dp(items, limit):
     return result
 
 
+@csrf_exempt
 def math_algorithm(request):
-    center_lat = request.POST.get('center_lat')
-    center_lon = request.POST.get('center_lon')
-    max_weight = request.POST.get('max_sum')
+    center_lat = request.POST.get('map_lat')
+    center_lon = request.POST.get('map_lon')
+    max_weight = request.POST.get('total_price')
     categories_list = request.POST.get('categories')
     categories_id = [i[0] for i in categories_list]
     categories_costs = [i[1] for i in categories_list]
