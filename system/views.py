@@ -1,9 +1,17 @@
-from django.http import HttpResponse, JsonResponse
+import json
 import requests
-from math import sin, cos, sqrt, atan2, radians, asin
+
+from django.http import HttpResponse, JsonResponse, Http404
 from django.views.decorators.csrf import csrf_exempt
-from investmap.models import ObjectCategory, InvestmentObject, InvestMapPoint
+
 from geopy.distance import vincenty
+from haystack.query import SearchQuerySet
+
+from investmap.models import ObjectCategory, InvestmentObject, ObjectHolder
+from investmap.serializers import InvestmentObjectSerializer, ObjectHolderSerializer
+
+from .models import Region, People
+from .serializers import RegionSerializer, PeopleSerializer
 
 def index(request):
     return HttpResponse('<h1>Home page of graduation work! Authors: Volodymyr Gorobyuk and Kasianchyk Dmytro</h1>'
@@ -77,3 +85,41 @@ def math_algorithm(request):
 
 
     return JsonResponse(result, safe=False)
+
+
+@csrf_exempt
+def search(request):
+    """Performs POST request processing for search in Document model by haystack and elasticsearch.
+
+        Required field in body of POST - "query"
+
+        Return:
+            List of id or message "No result"
+    """
+    if request.method == 'GET':
+        raise Http404()
+    response = {'message': "No result for this search request"}
+    data = json.loads(request.body.decode('utf-8'))
+    query = data.get('query')
+    people, region, investmentobject, objectholder = [], [], [], []
+    if query:
+        sqs = SearchQuerySet().filter(content=query)
+        if sqs:
+            for i in sqs:
+                if i.model == People:
+                    obj = People.objects.get(id=i.pk)
+                    people.append(PeopleSerializer(obj).data)
+                elif i.model == Region:
+                    obj = Region.objects.get(id=i.pk)
+                    region.append(RegionSerializer(obj).data)
+                elif i.model == InvestmentObject:
+                    obj = InvestmentObject.objects.get(id=i.pk)
+                    investmentobject.append(InvestmentObjectSerializer(obj).data)
+                elif i.model == ObjectHolder:
+                    obj = ObjectHolder.objects.get(id=i.pk)
+                    objectholder.append(ObjectHolderSerializer(obj).data)
+            response = {"people": people,
+                        "region": region,
+                        "investmentobject": investmentobject,
+                        "objectholder": objectholder}
+    return JsonResponse(response, safe=False)

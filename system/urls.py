@@ -24,7 +24,7 @@ from system import views
 
 api_patterns = [
     url(r'^', include(router.urls)),
-
+    url(r'^search$', views.search, name='search_view'),
 ]
 
 
