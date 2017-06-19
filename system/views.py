@@ -83,12 +83,13 @@ def math_algorithm(request):
 
     result_knapsack = knapsack01_dp(items, max_weight)
 
-    result = {}
+    result = []
 
     for i in result_knapsack:
         category = ObjectCategory.objects.get(id=i[0])
         obj = InvestmentObject.objects.get(id=i[3])
-        result[category.title] = obj.name
+        result.append({'key':category.title,
+        'value':obj.name})
 
     return JsonResponse(result, safe=False)
 
