@@ -20,6 +20,7 @@ def index(request):
 
 
 def knapsack01_dp(items, limit):
+    limit = int(limit)
     table = [[0 for w in range(limit + 1)] for j in range(len(items) + 1)]
 
     for j in range(1, len(items) + 1):
@@ -46,12 +47,13 @@ def knapsack01_dp(items, limit):
 
 @csrf_exempt
 def math_algorithm(request):
-    center_lat = request.POST.get('map_lat')
-    center_lon = request.POST.get('map_lon')
-    max_weight = request.POST.get('total_price')
-    categories_list = request.POST.get('categories')
-    categories_id = [i[0] for i in categories_list]
-    categories_costs = [i[1] for i in categories_list]
+    data = json.loads(request.body.decode('utf-8'))
+    center_lat = data.get('map_lat')
+    center_lon = data.get('map_lon')
+    max_weight = data.get('max_price')
+    categories_list = data.get('categories')
+    categories_id = [i for i in categories_list.keys()]
+    categories_costs = [int(i) for i in categories_list.values()]
 
     categories = ObjectCategory.objects.filter(id__in=categories_id)
     objects_by_categories = {}
@@ -81,8 +83,12 @@ def math_algorithm(request):
 
     result_knapsack = knapsack01_dp(items, max_weight)
 
-    result['result'] = [[i[0], i[3]] for i in result_knapsack]
+    result = {}
 
+    for i in result_knapsack:
+        category = ObjectCategory.objects.get(id=i[0])
+        obj = InvestmentObject.objects.get(id=i[3])
+        result[category.title] = obj.name
 
     return JsonResponse(result, safe=False)
 
